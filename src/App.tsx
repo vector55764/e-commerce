@@ -1,11 +1,5 @@
-import { ProductsItemList } from './components/atoms/ProductsItemList'
-
 function App() {
-  return (
-    <>
-      <ProductsItemList />
-    </>
-  )
+  return <></>
 }
 
 export default App
