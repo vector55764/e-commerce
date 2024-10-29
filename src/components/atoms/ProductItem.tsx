@@ -1,11 +1,14 @@
+import { useState } from 'react'
 import { deleteProduct, Product, ProductId } from '../../store/products.slice'
 import { useAppDispatch } from '../../store/store'
+import { ProductModal } from '../molecules/productModal'
+import ProductForm from '../molecules/ProductForm'
 
 export const ProductItem = ({ product }: { product: Product }) => {
+  const [showModal, setShowModal] = useState<boolean>(false)
   const dispatch = useAppDispatch()
-  const handleUpdateProduct = (id: ProductId) => {
-    console.log(id)
-    //   dispatch(updateProduct({id}))
+  const handletoggleModal = () => {
+    setShowModal(!showModal)
   }
 
   const handleDeleteProduct = (id: ProductId) => {
@@ -21,6 +24,7 @@ export const ProductItem = ({ product }: { product: Product }) => {
           <p>{product.description}</p>
           <div>image urls</div>
           <p>{product.rank}</p>
+          <p>{product.price}</p>
           <p>{product.countReviews}</p>
           <p>{product.inStock ? 'in Stock' : 'out of Stock'}</p>
           <div>colours</div>
@@ -33,9 +37,14 @@ export const ProductItem = ({ product }: { product: Product }) => {
           <p>{product.category}</p>
         </div>
         <div>
-          <button onClick={() => handleUpdateProduct(product.id)}>
-            update
-          </button>
+          <button onClick={handletoggleModal}>update</button>
+          {showModal && (
+            <ProductModal
+              open={showModal}
+              handleClose={handletoggleModal}
+              children={<ProductForm type={'update'} product={product} />}
+            />
+          )}
           <button onClick={() => handleDeleteProduct(product.id)}>
             delete
           </button>

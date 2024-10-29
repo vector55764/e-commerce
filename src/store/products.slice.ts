@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { v4 as uuidv4 } from 'uuid'
 
 export type ProductId = string
 
@@ -80,36 +79,22 @@ export const productsSlice = createSlice({
   initialState: initialProductsState,
   //   selectors: {},
   reducers: {
-    addProduct: (state, action) => {
-      const newProduct = {
-        id: uuidv4(),
-        name: 'new name',
-        imageUrls: ['jddjskfd', 'jdfnhjk'],
-        rank: 2.2,
-        countReviews: 120,
-        inStock: true,
-        price: 12.99,
-        description: action.payload,
-        colours: ['black', 'blue'],
-        size: ['xs', 'l', 'm'],
-        discount: 10,
-        category: 'category',
-      }
+    addProduct: (state, action: PayloadAction<Product>) => {
       return {
         ...state,
-        data: [...state.data, newProduct],
+        data: [...state.data, action.payload],
       }
     },
     updateProduct: (
       state,
-      action: PayloadAction<{ id: ProductId; desc: string }>,
+      action: PayloadAction<{ id: ProductId; newProduct: Product }>,
     ) => {
-      const { id, desc } = action.payload
+      const { id, newProduct } = action.payload
 
       return {
         ...state,
         data: state.data.map(product =>
-          product.id === id ? { ...product, description: desc } : product,
+          product.id === id ? newProduct : product,
         ),
       }
     },

@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Modal from '@mui/material/Modal'
 import { Box } from '@mui/material'
-import ProductForm from './ProductForm'
 
 const style = {
   position: 'absolute',
@@ -15,23 +14,22 @@ const style = {
   p: 4,
 }
 
-export const ProductModal = () => {
-  const [open, setOpen] = React.useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+interface ModalProps {
+  open: boolean
+  handleClose: () => void
+  children: React.ReactElement
+}
 
+export const ProductModal = (props: ModalProps) => {
   return (
     <div>
-      <button onClick={handleOpen}>Open modal</button>
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={props.open}
+        onClose={props.handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          <ProductForm />
-        </Box>
+        <Box sx={style}>{props.children}</Box>
       </Modal>
     </div>
   )

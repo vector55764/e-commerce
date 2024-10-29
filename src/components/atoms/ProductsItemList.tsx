@@ -1,32 +1,34 @@
-import React, { useState } from 'react'
-import { addProduct } from '../../store/products.slice'
-import { useAppDispatch, useAppSelector } from '../../store/store'
+import { useState } from 'react'
+import { useAppSelector } from '../../store/store'
+import ProductForm from '../molecules/ProductForm'
+import { ProductModal } from '../molecules/productModal'
 import { ProductItem } from './ProductItem'
 
 export const ProductsItemList = () => {
-  const [desc, setDesc] = useState('')
+  const [showModal, setShowModal] = useState<boolean>(false)
   const products = useAppSelector(state => state.products.data)
-  const dispatch = useAppDispatch()
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDesc(e.target.value)
+  const handletoggleModal = () => {
+    setShowModal(!showModal)
   }
 
-  const handleAddProduct = () => {
-    if (desc) {
-      dispatch(addProduct(desc))
-      setDesc('')
-    }
-  }
+  if (products.length === 0) return <div>Nothing</div>
 
   return (
     <>
-      <input type="text" value={desc} onChange={handleInputChange} />
-      <button onClick={handleAddProduct}>add</button>
+      <button onClick={handletoggleModal}>add</button>
+      {showModal && (
+        <ProductModal
+          open={showModal}
+          handleClose={handletoggleModal}
+          children={<ProductForm type={'add'} />}
+        />
+      )}
       <ul>
-        {products.map(product => (
-          <ProductItem key={product.id} product={product} />
-        ))}
+        {products.length > 0 &&
+          products.map(product => (
+            <ProductItem key={product.id} product={product} />
+          ))}
       </ul>
     </>
   )

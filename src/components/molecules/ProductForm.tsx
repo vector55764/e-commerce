@@ -10,17 +10,49 @@ import {
   Button,
 } from '@mui/material'
 import { ChangeEvent, SyntheticEvent, useState } from 'react'
+import { useAppDispatch } from '../../store/store'
+import { addProduct, Product, updateProduct } from '../../store/products.slice'
+import { v4 as uuidv4 } from 'uuid'
 
-const ProductForm = () => {
-  const [name, setName] = useState('')
-  const [inStock, setInStock] = useState(true)
-  const [price, setPrice] = useState(0)
-  const [description, setDescription] = useState('')
-  const [discount, setDiscount] = useState(0)
-  const [category, setCategory] = useState('')
+interface FormProps {
+  type: string
+  product?: Product
+}
+
+const ProductForm = ({ type, product }: FormProps) => {
+  const [name, setName] = useState(product?.name ?? '')
+  const [inStock, setInStock] = useState(product?.inStock ?? false)
+  const [price, setPrice] = useState(product?.price ?? 0)
+  const [description, setDescription] = useState(product?.description ?? '')
+  const [discount, setDiscount] = useState(product?.discount ?? 0)
+  const [category, setCategory] = useState(product?.category ?? '')
+
+  const dispatch = useAppDispatch()
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
-    console.log(e)
+    e.preventDefault()
+
+    const newProduct: Product = {
+      id: uuidv4(),
+      name: name,
+      imageUrls: [],
+      rank: 0,
+      countReviews: 0,
+      inStock: inStock,
+      price: price,
+      description: description,
+      colours: [],
+      size: [],
+      discount: discount,
+      category: category,
+    }
+
+    if (type === 'add') dispatch(addProduct(newProduct))
+
+    if (type === 'update' && product !== undefined) {
+      const id = product.id
+      dispatch(updateProduct({ id, newProduct }))
+    }
   }
   const handleChangeSelect = (e: SelectChangeEvent) => {
     setCategory(e.target.value as string)
@@ -31,7 +63,7 @@ const ProductForm = () => {
 
   return (
     <>
-      <h3>Add new product</h3>
+      <h3>{type} new product</h3>
       <form onSubmit={handleSubmit}>
         <Stack spacing={2} direction="column" sx={{ marginBottom: 4 }}>
           <TextField
@@ -74,16 +106,6 @@ const ProductForm = () => {
             fullWidth
             required
           />
-          <TextField
-            type="number"
-            variant="outlined"
-            color="secondary"
-            label="Product discount"
-            onChange={e => setDiscount(+e.target.value)}
-            value={discount}
-            fullWidth
-            required
-          />
           <FormControl fullWidth>
             <InputLabel id="categories-label">Category</InputLabel>
             <Select
@@ -107,7 +129,7 @@ const ProductForm = () => {
           type="submit"
           sx={{ mx: 'auto', width: 400 }}
         >
-          Add
+          {type}
         </Button>
       </form>
     </>
