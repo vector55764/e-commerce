@@ -1,6 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit'
 
 export type ProductId = string
+
+type size = 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl' | '3xl'
 
 export type Product = {
   id: ProductId
@@ -12,7 +14,7 @@ export type Product = {
   price: number
   description: string
   colours: string[]
-  size: string[]
+  sizes: size[]
   discount: number
   category: string
 }
@@ -37,7 +39,7 @@ export const initialProductsList: Product[] = [
     description:
       'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minus, exercitationem.',
     colours: ['black', 'gary', 'blue', 'green', 'white'],
-    size: ['xs', 's', 'm', 'l', 'xl'],
+    sizes: ['xs', 's', 'm', 'l', 'xl'],
     discount: 14,
     category: 'laptops',
   },
@@ -60,7 +62,7 @@ export const initialProductsList: Product[] = [
     description:
       'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus, placeat! Ipsum quaerat quae possimus, perferendis eaque voluptates sunt consectetur soluta perspiciatis error voluptatibus, illum suscipit cumque dicta ducimus molestiae voluptatum inventore ratione, ea officia at. Quas voluptatum corrupti qui enim!',
     colours: ['black', 'gary', 'blue', 'green', 'white'],
-    size: ['xs', 's', 'm', 'l', 'xl'],
+    sizes: ['xs', 's', 'm', 'l', 'xl'],
     discount: 35,
     category: 'laptops',
   },
@@ -79,30 +81,30 @@ export const productsSlice = createSlice({
   initialState: initialProductsState,
   //   selectors: {},
   reducers: {
-    addProduct: (state, action: PayloadAction<Product>) => {
-      return {
-        ...state,
-        data: [...state.data, action.payload],
-      }
+    deleteProduct: (state, action: PayloadAction<ProductId>) => {
+      state.data = state.data.filter(product => product.id !== action.payload)
     },
+
+    addProduct: {
+      reducer: (state, action: PayloadAction<Product>) => {
+        state.data.push(action.payload)
+      },
+      prepare: (payload: Product) => ({
+        payload: {
+          ...payload,
+          id: nanoid(),
+        },
+      }),
+    },
+
     updateProduct: (
       state,
       action: PayloadAction<{ id: ProductId; newProduct: Product }>,
     ) => {
       const { id, newProduct } = action.payload
-
-      return {
-        ...state,
-        data: state.data.map(product =>
-          product.id === id ? newProduct : product,
-        ),
-      }
-    },
-    deleteProduct: (state, action) => {
-      return {
-        ...state,
-        data: state.data.filter(product => product.id !== action.payload),
-      }
+      state.data = state.data.map(product =>
+        product.id === id ? newProduct : product,
+      )
     },
   },
 })

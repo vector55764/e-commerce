@@ -12,7 +12,6 @@ import {
 import { ChangeEvent, SyntheticEvent, useState } from 'react'
 import { useAppDispatch } from '../../store/store'
 import { addProduct, Product, updateProduct } from '../../store/products.slice'
-import { v4 as uuidv4 } from 'uuid'
 
 interface FormProps {
   type: string
@@ -33,7 +32,7 @@ const ProductForm = ({ type, product }: FormProps) => {
     e.preventDefault()
 
     const newProduct: Product = {
-      id: uuidv4(),
+      id: '',
       name: name,
       imageUrls: [],
       rank: 0,
