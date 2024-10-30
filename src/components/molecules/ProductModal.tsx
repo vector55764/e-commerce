@@ -20,16 +20,16 @@ interface ModalProps {
   children: React.ReactElement
 }
 
-export const ProductModal = (props: ModalProps) => {
+export const ProductModal = ({ open, handleClose, children }: ModalProps) => {
   return (
     <div>
       <Modal
-        open={props.open}
-        onClose={props.handleClose}
+        open={open}
+        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>{props.children}</Box>
+        <Box sx={style}>{children}</Box>
       </Modal>
     </div>
   )

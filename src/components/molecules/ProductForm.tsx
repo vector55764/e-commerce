@@ -10,8 +10,12 @@ import {
   Button,
 } from '@mui/material'
 import { ChangeEvent, SyntheticEvent, useState } from 'react'
-import { useAppDispatch } from '../../store/store'
-import { addProduct, Product, updateProduct } from '../../store/products.slice'
+import { useAppDispatch } from '../../app/hooks'
+import { Product } from '../../features/products/products.slice'
+import {
+  addNewProduct,
+  updateProduct,
+} from '../../features/products/createActions'
 
 interface FormProps {
   type: string
@@ -41,16 +45,16 @@ const ProductForm = ({ type, product }: FormProps) => {
       price: price,
       description: description,
       colours: [],
-      size: [],
+      sizes: [],
       discount: discount,
       category: category,
     }
 
-    if (type === 'add') dispatch(addProduct(newProduct))
+    if (type === 'add') dispatch(addNewProduct(newProduct)).unwrap()
 
     if (type === 'update' && product !== undefined) {
-      const id = product.id
-      dispatch(updateProduct({ id, newProduct }))
+      const p = { ...newProduct, id: product.id }
+      dispatch(updateProduct(p)).unwrap()
     }
   }
   const handleChangeSelect = (e: SelectChangeEvent) => {

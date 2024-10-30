@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { deleteProduct, Product, ProductId } from '../../store/products.slice'
-import { useAppDispatch } from '../../store/store'
-import { ProductModal } from '../molecules/productModal'
+import { Product, ProductId } from '../../features/products/products.slice.ts'
+import { useAppDispatch } from '../../app/hooks.ts'
+import { ProductModal } from '../molecules/ProductModal'
 import ProductForm from '../molecules/ProductForm'
+import { deleteProduct } from '../../features/products/createActions.ts'
 
 export const ProductItem = ({ product }: { product: Product }) => {
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -29,7 +30,7 @@ export const ProductItem = ({ product }: { product: Product }) => {
           <p>{product.inStock ? 'in Stock' : 'out of Stock'}</p>
           <div>colours</div>
           <div>
-            {product.size.map(item => (
+            {product.sizes.map(item => (
               <span key={item}>{item + '  '}</span>
             ))}
           </div>

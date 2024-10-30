@@ -1,18 +1,27 @@
-import { useState } from 'react'
-import { useAppSelector } from '../../store/store'
+import { useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import ProductForm from '../molecules/ProductForm'
-import { ProductModal } from '../molecules/productModal'
+import { ProductModal } from '../molecules/ProductModal'
 import { ProductItem } from './ProductItem'
+import { fetchProducts } from '../../features/products/createActions'
 
 export const ProductsItemList = () => {
   const [showModal, setShowModal] = useState<boolean>(false)
-  const products = useAppSelector(state => state.products.data)
+  const dispatch = useAppDispatch()
+  const { data, loading, error } = useAppSelector(state => state.products)
+
+  useEffect(() => {
+    dispatch(fetchProducts())
+  }, [dispatch])
 
   const handletoggleModal = () => {
     setShowModal(!showModal)
   }
 
-  if (products.length === 0) return <div>Nothing</div>
+  if (loading) console.log('loading')
+  if (error) console.log(error)
+
+  if (data.length === 0) return <div>Nothing</div>
 
   return (
     <>
@@ -25,8 +34,8 @@ export const ProductsItemList = () => {
         />
       )}
       <ul>
-        {products.length > 0 &&
-          products.map(product => (
+        {data.length > 0 &&
+          data.map(product => (
             <ProductItem key={product.id} product={product} />
           ))}
       </ul>
