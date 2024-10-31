@@ -63,14 +63,14 @@ export const productsSlice = createSlice({
       })
       .addCase(addProductAction.fulfilled, (state, action) => {
         toast.dismiss()
-        toast.success('success adding product')
+        toast.success('success add product')
 
         state.data.push(action.payload)
         state.loading = false
       })
       .addCase(addProductAction.rejected, (state, action) => {
         toast.dismiss()
-        toast.error('failed adding product')
+        toast.error('failed add product')
 
         state.loading = false
         state.error = action.error.message ?? 'UNKNOWN ERROR'
