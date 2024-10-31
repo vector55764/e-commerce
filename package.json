@@ -38,6 +38,8 @@
     "json-server": "^1.0.0-beta.3",
     "lint-staged": "^12.3.2",
     "prettier": "^3.3.3",
+    "react-toastify": "^10.0.6",
+    "toastr": "^2.1.4",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.7.0",
     "vite": "^5.4.8",

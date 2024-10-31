@@ -3,7 +3,13 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import ProductForm from '../molecules/ProductForm'
 import { ProductModal } from '../molecules/ProductModal'
 import { ProductItem } from './ProductItem'
-import { fetchProducts } from '../../features/products/createActions'
+import { fetchProductsAction } from '../../features/products/actions'
+import { Bounce, ToastContainer } from 'react-toastify'
+import { injectStyle } from 'react-toastify/dist/inject-style'
+
+if (typeof window !== 'undefined') {
+  injectStyle()
+}
 
 export const ProductsItemList = () => {
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -11,7 +17,7 @@ export const ProductsItemList = () => {
   const { data, loading, error } = useAppSelector(state => state.products)
 
   useEffect(() => {
-    dispatch(fetchProducts())
+    dispatch(fetchProductsAction())
   }, [dispatch])
 
   const handletoggleModal = () => {
@@ -25,6 +31,19 @@ export const ProductsItemList = () => {
 
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
       <button onClick={handletoggleModal}>add</button>
       {showModal && (
         <ProductModal

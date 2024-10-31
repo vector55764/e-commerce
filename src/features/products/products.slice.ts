@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
-  addNewProduct,
-  deleteProduct,
-  fetchProducts,
-  updateProduct,
-} from './createActions'
+  addProductAction,
+  deleteProductAction,
+  fetchProductsAction,
+  updateProductAction,
+} from './actions'
+import { toast } from 'react-toastify'
 
 export type ProductId = string
 
@@ -44,51 +45,71 @@ export const productsSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(fetchProducts.pending, state => {
+      .addCase(fetchProductsAction.pending, state => {
         state.loading = true
       })
-      .addCase(fetchProducts.fulfilled, (state, action) => {
+      .addCase(fetchProductsAction.fulfilled, (state, action) => {
         state.loading = false
         state.data = action.payload
       })
-      .addCase(fetchProducts.rejected, (state, action) => {
+      .addCase(fetchProductsAction.rejected, (state, action) => {
+        toast.dismiss()
+        toast.error('failed load products')
         state.loading = false
         state.error = action.error.message ?? 'UNKNOWN ERROR'
       })
-      .addCase(addNewProduct.pending, state => {
+      .addCase(addProductAction.pending, state => {
         state.loading = true
       })
-      .addCase(addNewProduct.fulfilled, (state, action) => {
+      .addCase(addProductAction.fulfilled, (state, action) => {
+        toast.dismiss()
+        toast.success('success adding product')
+
         state.data.push(action.payload)
         state.loading = false
       })
-      .addCase(addNewProduct.rejected, (state, action) => {
+      .addCase(addProductAction.rejected, (state, action) => {
+        toast.dismiss()
+        toast.error('failed adding product')
+
         state.loading = false
         state.error = action.error.message ?? 'UNKNOWN ERROR'
       })
-      .addCase(deleteProduct.pending, state => {
+      .addCase(deleteProductAction.pending, state => {
         state.loading = true
       })
-      .addCase(deleteProduct.fulfilled, (state, action) => {
+      .addCase(deleteProductAction.fulfilled, (state, action) => {
+        toast.dismiss()
+        toast.success('success delete product')
+
         state.loading = false
         state.data = state.data.filter(
           product => product.id !== action.payload.id,
         )
       })
-      .addCase(deleteProduct.rejected, (state, action) => {
+      .addCase(deleteProductAction.rejected, (state, action) => {
+        toast.dismiss()
+        toast.success('failed delete product')
+
         state.loading = false
         state.error = action.error.message ?? 'UNKNOWN ERROR'
       })
-      .addCase(updateProduct.pending, state => {
+      .addCase(updateProductAction.pending, state => {
         state.loading = true
       })
-      .addCase(updateProduct.fulfilled, (state, action) => {
+      .addCase(updateProductAction.fulfilled, (state, action) => {
+        toast.dismiss()
+        toast.success('success update product')
+
         state.loading = false
         state.data = state.data.map(product =>
           product.id === action.payload.id ? action.payload : product,
         )
       })
-      .addCase(updateProduct.rejected, (state, action) => {
+      .addCase(updateProductAction.rejected, (state, action) => {
+        toast.dismiss()
+        toast.success('failed update product')
+
         state.loading = false
         state.error = action.error.message ?? 'UNKNOWN ERROR'
       })

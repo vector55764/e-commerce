@@ -3,7 +3,7 @@ import { Product, ProductId } from '../../features/products/products.slice.ts'
 import { useAppDispatch } from '../../app/hooks.ts'
 import { ProductModal } from '../molecules/ProductModal'
 import ProductForm from '../molecules/ProductForm'
-import { deleteProduct } from '../../features/products/createActions.ts'
+import { deleteProductAction } from '../../features/products/actions.ts'
 
 export const ProductItem = ({ product }: { product: Product }) => {
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -13,7 +13,7 @@ export const ProductItem = ({ product }: { product: Product }) => {
   }
 
   const handleDeleteProduct = (id: ProductId) => {
-    dispatch(deleteProduct(id))
+    dispatch(deleteProductAction(id))
   }
 
   return (

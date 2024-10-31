@@ -13,9 +13,9 @@ import { ChangeEvent, SyntheticEvent, useState } from 'react'
 import { useAppDispatch } from '../../app/hooks'
 import { Product } from '../../features/products/products.slice'
 import {
-  addNewProduct,
-  updateProduct,
-} from '../../features/products/createActions'
+  addProductAction,
+  updateProductAction,
+} from '../../features/products/actions'
 
 interface FormProps {
   type: string
@@ -50,11 +50,11 @@ const ProductForm = ({ type, product }: FormProps) => {
       category: category,
     }
 
-    if (type === 'add') dispatch(addNewProduct(newProduct)).unwrap()
+    if (type === 'add') dispatch(addProductAction(newProduct)).unwrap()
 
     if (type === 'update' && product !== undefined) {
       const p = { ...newProduct, id: product.id }
-      dispatch(updateProduct(p)).unwrap()
+      dispatch(updateProductAction(p)).unwrap()
     }
   }
   const handleChangeSelect = (e: SelectChangeEvent) => {
