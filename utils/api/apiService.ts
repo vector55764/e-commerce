@@ -25,5 +25,5 @@ export const updateUser = (data: User) => {
   return apiClient.put(`/users/${data.id}`, data)
 }
 export const deleteUser = (id: UserId) => {
-  return apiClient.delete(`/products/${id}`)
+  return apiClient.delete(`/users/${id}`)
 }

@@ -54,7 +54,7 @@ export const usersSlice = createSlice({
       })
       .addCase(addUserAction.fulfilled, (state, action) => {
         toast.dismiss()
-        toast.error('success add user')
+        toast.success('success add user')
 
         state.loading = false
         state.data.push(action.payload)
@@ -70,7 +70,7 @@ export const usersSlice = createSlice({
       })
       .addCase(updateUserAction.fulfilled, (state, action) => {
         toast.dismiss()
-        toast.error('success update user')
+        toast.success('success update user')
 
         state.loading = false
         state.data = state.data.map(user =>
@@ -88,7 +88,7 @@ export const usersSlice = createSlice({
       })
       .addCase(deleteUserAction.fulfilled, (state, action) => {
         toast.dismiss()
-        toast.error('success delete user')
+        toast.success('success delete user')
 
         state.loading = false
         state.data = state.data.filter(user => user.id !== action.payload.id)

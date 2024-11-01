@@ -32,7 +32,7 @@ export const addUserAction = createAsyncThunk(
 )
 
 export const updateUserAction = createAsyncThunk(
-  'addUser',
+  'updateUser',
   async (initialUser: User) => {
     try {
       const { data } = await updateUser(initialUser)
@@ -44,7 +44,7 @@ export const updateUserAction = createAsyncThunk(
 )
 
 export const deleteUserAction = createAsyncThunk(
-  'addUser',
+  'deleteUser',
   async (UserId: UserId) => {
     try {
       const { data } = await deleteUser(UserId)
