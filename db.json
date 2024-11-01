@@ -1,0 +1,28 @@
+{
+  "products": [
+    {
+      "id": "NwytTRn0qYlPiRWpabC4V",
+      "name": "iphone 16 pro max",
+      "imageUrls": [],
+      "rank": 0,
+      "countReviews": 0,
+      "inStock": true,
+      "price": 999,
+      "description": "some desc for iphone 16 pro max silver",
+      "colours": [],
+      "sizes": [],
+      "discount": 10,
+      "category": "phones"
+    }
+  ],
+  "users": [
+    {
+      "id": "NwytTRn0qYlPiRWpabC4f",
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "JohnDoe@gmail.com",
+      "password": "00000000",
+      "address": "221B Baker Street, London, England"
+    }
+  ]
+}
